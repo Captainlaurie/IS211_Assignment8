@@ -23,19 +23,35 @@ class Player:
 
 class ComputerPlayer(Player):
 
-    def computer_turn(self):
-        threshold = min(25, 100 - self.score)
-        while self.turn_score < threshold:
-            roll = self.dice.roll()
-            if roll == 1:
+    def computer_turn(self, dice):
+        # Roll the dice
+        roll = self.dice.roll()
+    
+        if roll == 1:
+            # Player scores nothing for the turn and turn ends
+            self.turn_score = 0
+            print(f"Computer rolled a 1. Turn over. Current score: {self.score}.")
+            return
+    
+        else:
+            # Add the roll to the turn score
+            self.turn_score += roll
+    
+            # Check if the turn score meets the hold threshold
+            if self.turn_score >= 25 or 100 - self.score < 25:
+                # Add turn score to overall score and end turn
+                self.score += self.turn_score
+                
+                #reset turn score
                 self.turn_score = 0
-                print(f"{self.name} rolled a 1 and lost their turn.")
-                return 0
+                print(f"Computer holds and banks points. Current score: {self.score}.")
+                return
+    
             else:
-                self.turn_score += roll
-                print(f"{self.name} rolled a {roll}. Turn score {self.current_player.turn_score}")
-        print(f"{self.name} Holds and banks points.")
-        return self.turn_score
+                # Continue the turn by rolling again
+                print(f"Computer rolled a {roll}. Roll again. Turn score: {self.turn_score}.")
+                
+                return self.turn_score
 
 class PlayerFactory:
     
@@ -81,7 +97,7 @@ class Game:
                         break
                     else:
                         self.current_player.turn_score += roll
-                        print(f"{self.current_player.name} rolled a {roll}.")
+                        print(f"{self.current_player.name} rolled a {roll}. Current turn score {self.current_player.turn_score}")
                 elif choice.lower() == "h":
                     break
                 else:
