@@ -111,7 +111,7 @@ class TimedGameProxy:
                     print(f"Time's up! {self.game.player2.name} wins with a score of {self.game.player2.score}!")
                 else:
                     print("It's a tie!")
-                return
+                    return
             if self.game.player1.score >= 100 or self.game.player2.score >= 100:
                 return
             self.game.play()
@@ -120,8 +120,8 @@ class TimedGameProxy:
 
 def main():
     parser = argparse.ArgumentParser(description="Play a game of Pig.")
-    parser.add_argument("--player1", type=str, choices=["human", "computer"], help="Type of player 1")
-    parser.add_argument("--player2", type=str, choices=["human", "computer"], help="Type of player 2")
+    parser.add_argument("--player1", type=str, choices=["human", "computer"], help="Type of player 1", default = "human")
+    parser.add_argument("--player2", type=str, choices=["human", "computer"], help="Type of player 2", default = "computer")
     parser.add_argument("--timed", action="store_true", help="Play a timed game")
 
     args = parser.parse_args()
